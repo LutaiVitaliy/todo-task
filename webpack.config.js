@@ -23,23 +23,25 @@ module.exports = {
         rules: [
             {
                 test: /\.s[ac]ss$/i,
-                use: ['style-loader', 'css-loader', 'sass-loader'],
+                use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'],
             },
             {
-                test: /\.(t|j)sx?$/,
-                loader: 'ts-loader',
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                options: {
-                    transpileOnly: true,
-                    getCustomTransformers: () => ({
-                        before: [
-                            createStyledComponentsTransformer({
-                                minify: false,
-                                displayName: true,
-                            }),
-                        ],
-                    }),
+                use: {
+                    loader: 'babel-loader'
                 },
+            },
+            {
+                test: /\.svg$/,
+                use: [
+                  {
+                    loader: 'svg-url-loader',
+                    options: {
+                      limit: 10000,
+                    },
+                  },
+                ],
             },
         ],
     },
